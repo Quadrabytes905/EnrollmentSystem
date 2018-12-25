@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="jumbotron text-center">
+    <h1>Lists of Professor's assigned in subjects</h1>
+    <div class = "container">
+      <table class= "table table-hover">
+          <thead>
+            <th>Professor ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+          </thead>
+          {% for prof in professors %}
+            <tr>
+              <td>{{ prof[0] }}</td>
+              <td>{{ prof[1] }}</td>
+              <td>{{ prof[2] }}</td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+  </div>
+{% endblock %}
