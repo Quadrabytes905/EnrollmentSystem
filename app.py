@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, session
 import mysql.connector as mysql
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -9,6 +9,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisissupposedtobesecret'
 Bootstrap(app)
 db = mysql.connect(host="localhost", user="root", passwd="", db="enrollment")
+cur = db.cursor()
 
 class loginform(FlaskForm):
   username = StringField('Username', validators=[InputRequired(), length(min=4, max=15)])
@@ -29,6 +30,12 @@ def students():
   cur = db.cursor()
   cur.execute("SELECT * FROM students")
   return render_template('students.html', students=cur.fetchall())
+
+@app.route('/addstudent')
+def addStudent():
+  fname = request.form['fname']
+  lname = request.form['lname']
+  cur.execute("INSERT INTO students VALUES ('{fname}', '{lname}')")
 
 @app.route('/subjects')
 def subjects():
