@@ -1,0 +1,5 @@
+DB_USER = 'root'
+DB_PASSOWRD = ''
+DB_HOST = 'localhost'
+DB_DATABASE = 'enrollment'
+SECRET_KEY = 'Thisissupposedtobesecret'
