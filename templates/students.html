@@ -2,7 +2,9 @@
 
 {% block body %}
   <div class="jumbotron text-center">
-    <h1>Lists of Students</h1>
+    <h1>Welcome Admin</h1>
+    <!-- <div class="jumbotron text-center">
+        <h1>Lists of Students</h1>
     <div class = "container mt-3">
       <input class="form-control" id="myInput" type="text" placeholder="Search..">
       
@@ -16,7 +18,7 @@
         </thead>
         <tbody id="myTable">
           {% for student in students %}
-            <tr>
+            <tr onclick="studentClick(this)">
                 <td>{{ student[0] }}</td>
                 <td>{{ student[1] }}</td>
                 <td>{{ student[2] }}</td>
@@ -38,5 +40,11 @@
           });
         });
     </script>
-  </div>
+
+    <script>
+    function studentClick(x) {
+      alert("Row index is: " + x.rowIndex);
+    }
+    </script>
+  </div> -->
 {% endblock %}

@@ -1,31 +1,68 @@
-{% extends "layout.html" %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>StackTrek</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="./static/js/jquery-3.3.1.min.js"></script>
+    <script src="./static/js/notify.min.js"></script>
+  </head>
+  <body>
+    <div>
+      <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">ENROLLMENT</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav>
+    </div>
 
-{% block body %}
-<form class="form-signin">
-  <h1 class="h1 pb-3 font-weight-normal">Please sign in</h1>
-  <label for="inputUsername" class="sr-only">Username</label>
-  <input type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+    <div class="container col-4">
+      <form class="form-signin">
+        <h1 class="h1 pb-3 font-weight-normal">Please sign in</h1>
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+      
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox mb-3">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button id="btnLogin" class="btn btn-lg btn-primary btn-block" type="button" onclick="check(this.form)">Log in</button>
+      </form>
+    </div>
 
-  <label for="inputPassword" class="sr-only">Password</label>
-  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-  <div class="checkbox mb-3">
-    <label>
-      <input type="checkbox" value="remember-me"> Remember me
-    </label>
-  </div>
-  <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="check(this.form)">Log in</button>
-</form>
-<script language="javascript">
-  function check(form)
-  {
-    if(form.inputUsername.value == "admin" && form.inputPassword.value == "admin")
-    {
-      window.open('/home');
-    }
-    else
-    {
-      alert("Invalid Username or Password. Please try again.");
-    }
-  }
-</script>
-{% endblock %}
+    <script>
+
+        $(document).ready(function () {
+      
+          $("#btnLogin").on('click', function() {
+            inputData = {
+                userID: $('#inputUsername').val(),
+                userPassword: $('#inputPassword').val()
+            };
+      
+            $.post("/login", inputData, function(data, textStatus) {
+                if(data == "1"){
+                  location.href = "/admin";
+                }
+                else if (data == "2"){
+                  location.href = "/home";
+                }
+                else{
+                  $.notify("Invalid Userame or Passwoord. Please try again.",  { position:"top, right" });
+                }
+            });
+          });
+      
+        });
+        
+        
+      </script>
+            
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+</html>
