@@ -1,7 +1,70 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <div class="jumbotron text-center">
-    <h1>Able to rate the professor on which he/she enrolled.</h1>
+<script src="./static/js/ratings.js" ></script>
+<div class="container">
+    <div class="jumbotron text-center">
+      <h1>Able to rate the professor on which he/she enrolled.</h1>
+    
+      <form>
+        <div class="container mt-5 col-6">
+          <div class="form-group">
+            <select id="teacherSelect" class="form-control custom-select">
+              <option value="0" disabled selected>Select Teacher</option>
+              {% if teachers %}
+                {% for teacher in  teachers %}
+                  <option value="{{ teacher[0] }}">{{ teacher[1] +" "+ teacher[2] }}</option>
+                {% endfor %}
+              {% endif %}
+              </select>
+          </div>
+
+          <div class="row">
+
+            <div>
+              <div id="rateYo"></div>
+            </div>
+
+            <div>
+              <input id="rateNum" type="text" hidden>
+              <h2 id="rateNumText">0</h2>
+            </div>
+
+          </div>
+
+          <div>
+            <div class="form-group">
+              <textarea class="form-control" placeholder="Comment here" id="comment"></textarea>
+            </div>
+          </div>
+
+          <div>
+            <input type="button" value="Save Comment" class="btn btn-primary form-control" onclick="rateTeacher(this.form);">
+          </div>
+
+        </div>
+        
+      </form>
+    </div>
+
   </div>
+
+  <script>
+    $(document).ready(function () {
+
+      $(function () {
+      
+        var _rateYo = $("#rateYo").rateYo({rating: 0});
+
+        $("#rateYo").click(function() {
+          var rating = _rateYo.rateYo("rating");
+          $("#rateNum").val(rating);
+          $("#rateNumText").text(rating);
+        });
+
+      });
+
+    });
+  </script>
+  
 {% endblock %}

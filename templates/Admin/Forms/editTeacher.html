@@ -1,0 +1,17 @@
+<div>
+	<form action="">
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="Teacher ID" id="teacherID" value='{{ tid }}' disabled>
+		</div>
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="First Name" id="firstName" value='{{ tfname }}'>
+		</div>
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="Last Name" id="lastName" value='{{ tlname }}'>
+		</div>
+		
+		<div id="btnSave" class="form-group text-center">
+			<input type="button" value="Save" class="btn btn-primary col-3" onclick="editTeacher(this.form)">
+		</div>
+	</form>
+</div>

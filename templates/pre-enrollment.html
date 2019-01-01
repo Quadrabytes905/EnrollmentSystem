@@ -1,7 +1,40 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+<div class="container">
   <div class="jumbotron text-center">
     <h1>Lists of Subjects for the students to enroll</h1>
+  </div>
+
+    <div class = "container">
+      <table class= "table table-hover">
+          <thead>
+            <th>stubCode</th>
+            <th>Subject Name</th>
+            <th>Schedule</th>
+            <th>Time</th>
+            <th>Teacher</th>
+            <th>Action</th>
+          </thead>
+          {% for class in classes %}
+            <tr>
+              <td>{{ class[0] }}</td>
+              <td>{{ class[1] }}</td>
+              <td>{{ class[2] }}</td>
+              <td>{{ class[3] }}</td>
+              <td>{{ class[4] }}</td>
+              {% if class[5] == 0 %}
+                <td id="btnSave">
+                  <button value="{{ class[0] }}" class="btn btn-primary" onclick="enroll(this.value)">ENROLL</button>
+                </td>
+              {% else %}
+                <td id="btnSave">
+                  <button class="btn btn-primary" disabled>ENROLLED</button>
+                </td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
   </div>
 {% endblock %}

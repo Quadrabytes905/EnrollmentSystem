@@ -1,0 +1,75 @@
+{% extends './Admin/layout.html' %}
+
+{% block body %}
+<script>
+	const frmAddClasses = `{% include './Admin/Forms/addClasses.html' %}`;
+
+	$(document).ready(function($) {
+		$("tr").click(function() {
+
+			var stubCode = $(this).find('td:eq(0)').html();
+			var teacherID = $(this).find('td:eq(1)').html();
+      var subjectID = $(this).find('td:eq(3)').html();
+      var schedule = $(this).find('td:eq(4)').html();
+      var timeStart = $(this).find('td:eq(5)').html();
+      var timeEnd = $(this).find('td:eq(6)').html();
+
+			variables = `{% with code="`+ stubCode +`",
+								cTid="`+ teacherID +`",
+                cSid="`+ subjectID +`",
+                sched="`+ schedule +`",
+                start="`+ timeStart +`",
+                end="`+ timeEnd +`" %}`;
+
+			$(".modal-head h3").html('Edit Classes');
+			$(".modal-body").html(variables + `{% include './Admin/Forms/editClasses.html' %} {% endwith %}`);
+		});
+	});
+	
+
+</script>
+<script src="./static/js/classes.js" ></script>
+
+<div class="container-fluid">
+	<div>
+		<input id="btnAdd" type="button" value="Add Class" class="btn btn-primary" data-toggle="modal" data-target=#myModal onclick="openModal('Add Class', frmAddClasses)">
+	</div>
+	<div>
+		<table class="table table-hover">
+			<thead>
+				<th>StubCode</th>
+				<th>Teacher ID</th>
+        <th>Subject ID</th>
+        <th>Schedule</th>
+        <th>Time Start</th>
+        <th>Time End</th>
+			</thead>
+			<tbody>
+			{% for class in classSched %}
+				<tr data-toggle="modal" data-target=#myModal>
+					<td>{{ class[0] }}</td>
+					<td>{{ class[1] }}</td>
+          <td>{{ class[2] }}</td>
+          <td>{{ class[3] }}</td>
+          <td>{{ class[4] }}</td>
+          <td>{{ class[5] }}</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div> 
+
+<div id="myModal" class="modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-head">
+				<h3 class="text-center"></h3>
+			</div>
+			<div class="modal-body">
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

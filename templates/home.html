@@ -1,7 +1,36 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+<div class="container">
   <div class="jumbotron text-center">
-      <h1>Welcome {{ userDetails[0][1] }}!</h1>
+      <h1>Welcome  {{ userDetails[0][1] + " " + userDetails[0][2]}}!</h1>
   </div>
+
+  <table class= "table table-hover">
+    <thead>
+      <th>StubCode</th>
+      <th>Subject Name</th>
+      <th>Time</th>
+      <th>Schedule</th>
+      <th>Instructor</th>
+    </thead>
+    {% if classes %}
+    <tbody id="myTable">
+        {% for roll in classes %}
+          <tr>
+            <td>{{ roll[0] }}</td>
+            <td>{{ roll[1] }}</td>
+            <td>{{ roll[2] }}</td>
+            <td>{{ roll[3] }}</td>
+            <td>{{ roll[4] }}</td>
+          </tr>
+        {% endfor %}
+      {% else %}
+        <tr class="text-center">
+          <td colspan="5"><h1>NO CLASSES</h1></td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}
