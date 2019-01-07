@@ -5,6 +5,7 @@ from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, email, length
 from config import config
 import db
+import simplejson as json
 
 app = Flask(__name__)
 app.secret_key = config.SECRET_KEY
@@ -43,9 +44,19 @@ def home():
         return redirect('/')
 
 
-# @app.route('/subjects')
-# def subjects():
-#     return render_template('subjects.html', subjects=db.getSubjects())
+@app.route('/subjects')
+def subjects():
+    return render_template('subjects.html', subjects=db.getSubjects())
+
+
+@app.route('/subjectTeachers', methods=['POST'])
+def subjectTeachers():
+    return render_template('classTeacherRating.html', classTeacherRating=db.getSubjectTeachers(request.form.get('subjectID')), subjectID=request.form.get('subjectID'))
+
+
+@app.route('/subjectTeachersRaw', methods=['POST'])
+def subjectTeachersRaw():  
+    return json.dumps(db.getSubjectTeachers(request.form.get('subjectID')))
 
 
 @app.route('/pre-enrollment')
@@ -64,7 +75,6 @@ def enrollSubject():
 def ratings():
     return render_template('ratings.html', teachers=db.getTeachers())
 
-
 # ======== ADMIN ==========
 @app.route('/admin')
 def admin():
@@ -72,6 +82,7 @@ def admin():
 
 @app.route('/adminStudents')
 def adminStudents():
+    if session.get('userID') = '1'
     return render_template('./Admin/Students/index.html', students=db.getStudents())
 
 @app.route('/adminProfessors')
@@ -84,7 +95,7 @@ def adminClasses():
 
 @app.route('/adminSubjects')
 def adminSubjects():
-    return render_template('./Admin/Subject/subject.html', subjects=db.getSubjects())
+    return render_template('./Admin/Subjects/subjects.html', subjects=db.getSubjects())
 
 # ============ STUDENTS =============
 
@@ -184,13 +195,32 @@ def saveRating():
         return 'success'
     except:
         return 'failed'
+        
+# ============ SUBJECTS =============
+@app.route('/addSubjects', methods=["GET", "POST"])
+def addSubjects():
+    subjID = request.form.get('subjID')
+    subjName = request.form.get('subjName')
 
+    if db.addSubjects(subjID, subjName) is True:
+        return "success"
+    else:
+        return "fail"
+
+@app.route('/editSubjects', methods=["GET", "POST"])
+def editSubjects():
+    subjID = request.form.get('subjID')
+    subjName = request.form.get('subjName')
+
+    if db.editSubjects(subjID, subjName) is True:
+        return "success"
+    else:
+        return "fail"
 
 # ======== CATCH EXCEPTIONS ==========
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    # returns a 200 (not a 404) with the following contents:
     return "THIS PAGE DOES NOT EXIST!"
 
 

@@ -11,7 +11,7 @@
           <th>Subject Name</th>
         </thead>
         {% for subj in subjects %}
-          <tr>
+          <tr id="{{ subj[0] }}" data-toggle="modal" data-target="#myModal" onclick="getClassTeacherRating(this.id)">
             <td>{{ subj[0] }}</td>
             <td>{{ subj[1] }}</td>
           </tr>
@@ -20,4 +20,29 @@
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title classHeader"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body special">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("tr").click(function() {
+      $(".classHeader").text($(this).attr('id'));
+    });
+  });
+</script>
 {% endblock %}

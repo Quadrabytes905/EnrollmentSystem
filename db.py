@@ -5,7 +5,7 @@ from mysql.connector import errorcode
 # Try if system can connect to database
 try:
     db = mysql.connect(**config.ConnectionString)
-    cur = db.cursor()
+    cur = db.cursor(buffered=True)
 except mysql.Error as err:
     if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
         print('Something is wrong with your user name or password')
@@ -58,6 +58,17 @@ def editTeacher(tid, tfname, tlname):
     except Exception as e:
         return False
 
+# ========== SUBJECTS ============
+def getSubjects():
+    cur.execute("SELECT * FROM subjects")
+    return cur.fetchall()
+
+
+def getSubjectTeachers(subjectID):
+    cur.execute(f"SELECT stubCode, classes.teacherID, CONCAT(teacherLname, ', ', LEFT(teacherFname, 1), '.') AS teacherName, (SELECT IF(AVG(rate) > 0, AVG(rate), 0) FROM ratings WHERE ratings.teacherID = classes.teacherID) AS rating FROM classes LEFT JOIN teachers ON classes.teacherID = teachers.teacherID WHERE subjectID = '{subjectID}'")
+    return cur.fetchall()
+
+
 # ============ MISC. =============
 def authenticateLogin(username, password):
     cur.execute(f"SELECT * FROM loginusers WHERE userID = '{username}' AND userPassword = '{password}'")
@@ -103,16 +114,23 @@ def editClasses(code, cTid, cSid, sched, start, end):
         return False
 
 # ============ SUBJECTS =============
-# def getSubjects():
-#     cur.execute("SELECT * FROM subjects")
-#     return cur.fetchall()
+def getSubjects():
+    cur.execute("SELECT * FROM subjects")
+    return cur.fetchall()
 
-#     def addTeacher(subjID, subjName):
-#     try:
-#         cur.execute(f"INSERT INTO subjects VALUES ('{subjID}', '{subjName}')")
-#         return True
-#     except Exception as e:
-#         return False
+def addSubjects(subjID, subjName):
+    try:
+        cur.execute(f"INSERT INTO subjects VALUES ('{subjID}', '{subjName}')")
+        return True
+    except Exception as e:
+        return False
+
+def editSubjects(subjID, subjName):
+    try:
+        cur.execute(f"UPDATE subjects SET subjectName='{subjName}' WHERE subjectID='{subjID}'")
+        return True
+    except Exception as e:
+        return False
 
 # ============ RATING =============
 
